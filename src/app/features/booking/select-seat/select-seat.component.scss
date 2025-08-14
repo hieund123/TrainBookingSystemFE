@@ -1,0 +1,33 @@
+.seat-container {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.seat {
+  background-color: #4caf50; /* Ghế trống */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 60px;
+  height: 60px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+}
+
+.seat:hover {
+  opacity: 0.8;
+}
+
+.seat.booked {
+  background-color: #ccc; /* Ghế đã đặt */
+  cursor: not-allowed;
+}
+
+.seat.selected {
+  background-color: #ff9800; /* Ghế đang chọn */
+}

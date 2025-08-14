@@ -1,0 +1,29 @@
+<table class="table mt-3" *ngIf="journeys.length > 0">
+  <thead>
+    <tr>
+      <th>Mã chuyến</th>
+      <th>Tên tàu</th>
+      <th>Ga đi</th>
+      <th>Ga đến</th>
+      <th>Ngày khởi hành</th>
+      <th>Giờ khởi hành</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let j of journeys">
+      <td>{{ j.Id }}</td>
+      <td>{{ j.TrainName }}</td>
+      <td>{{ j.StartStationName }}</td>
+      <td>{{ j.EndStationName }}</td>
+      <td>{{ j.DepartureDateTime | date:'dd/MM/yyyy' }}</td>
+      <td>{{ j.DepartureTime }}</td>
+      <td>
+        <button class="btn btn-primary btn-sm" (click)="viewDetail(j.Id)">
+          Xem chi tiết
+        </button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>

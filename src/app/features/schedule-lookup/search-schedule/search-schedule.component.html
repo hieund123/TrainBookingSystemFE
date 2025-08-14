@@ -1,0 +1,48 @@
+<!-- search-schedule.component.html -->
+<div class="container mt-3">
+  <c-row class="mb-3">
+    <c-col lg="4">
+      <label>Ga bắt đầu</label>
+      <select
+        aria-label="Select start station"
+        cSelect
+        [(ngModel)]="startStationId"
+      >
+        <option [ngValue]="null">-- Chọn ga đi --</option>
+        <option *ngFor="let station of stations" [value]="station.Id">
+          {{ station.StationName }}
+        </option>
+      </select>
+    </c-col>
+
+    <c-col lg="4">
+      <label>Ga kết thúc</label>
+      <select
+        aria-label="Select end station"
+        cSelect
+        [(ngModel)]="endStationId"
+      >
+        <option [ngValue]="null">-- Chọn ga đến --</option>
+        <option *ngFor="let station of stations" [value]="station.Id">
+          {{ station.StationName }}
+        </option>
+      </select>
+    </c-col>
+
+    <c-col lg="4">
+      <label for="travelDate">Ngày khởi hành</label>
+      <input
+        id="travelDate"
+        type="date"
+        class="form-control"
+        [(ngModel)]="travelDate"
+      />
+    </c-col>
+  </c-row>
+
+  <button class="btn btn-primary" (click)="searchSchedule()">
+    Tìm kiếm chuyến tàu
+  </button>
+
+  <app-result-schedule [journeys]="journeyList"></app-result-schedule>
+</div>

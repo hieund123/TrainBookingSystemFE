@@ -1,0 +1,21 @@
+<button [cModalToggle]="modal.id" cButton color="primary">
+  Xác nhận đặt vé
+</button>
+
+<c-modal #modal alignment="center" id="confirmBookingModal">
+  <c-modal-header>
+    <h5 cModalTitle>Xác nhận đặt vé</h5>
+    <button [cModalToggle]="modal.id" cButtonClose></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    Bạn có chắc chắn muốn đặt ghế <strong>{{ seatNo }}</strong> không?
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button [cModalToggle]="modal.id" cButton color="secondary">Hủy</button>
+    <button cButton color="primary" [cModalToggle]="modal.id" (click)="confirmed.emit()">
+      Xác nhận
+    </button>
+  </c-modal-footer>
+</c-modal>

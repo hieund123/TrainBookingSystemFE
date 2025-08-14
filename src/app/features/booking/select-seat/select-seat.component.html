@@ -1,0 +1,35 @@
+<div class="title-container">
+  <h2>Chọn ghế</h2>
+
+  <div>
+    <div class="booking-actions" *ngIf="selectedSeat">
+      <p>
+        Bạn đã chọn ghế: <strong>{{ selectedSeat }}</strong>
+      </p>
+    </div>
+
+    <!-- Modal confirm -->
+    <app-confirm-booking
+      *ngIf="selectedSeat"
+      [seatNo]="selectedSeat"
+      (confirmed)="onConfirmBooking()"
+    ></app-confirm-booking>
+  </div>
+</div>
+
+<div class="seat-container" *ngIf="allSeats.length > 0">
+  <div
+    class="seat"
+    *ngFor="let seatName of allSeats"
+    [class.booked]="!availableSeats.includes(seatName)"
+    [class.selected]="selectedSeat === seatName"
+    (click)="availableSeats.includes(seatName) && selectSeat(seatName)"
+  >
+    {{ seatName }}
+  </div>
+</div>
+
+<div *ngIf="allSeats.length === 0">
+  <p>Không có dữ liệu ghế.</p>
+</div>
+

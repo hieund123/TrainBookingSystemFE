@@ -1,0 +1,57 @@
+<div class="container mt-4">
+  <!-- Thông tin hành trình -->
+  <c-card *ngIf="journey">
+    <c-card-header class="d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">{{ journey.Name }}</h4>
+      <button cButton color="primary" (click)="bookTicket()">Đặt vé</button>
+    </c-card-header>
+    <c-card-body>
+      <p><strong>Lịch trình:</strong> {{ journey.ScheduleName }}</p>
+    </c-card-body>
+  </c-card>
+
+  <!-- Danh sách ga -->
+  <c-card class="mt-4" *ngIf="journeyStations.length > 0">
+    <c-card-header>
+      <h5 class="mb-0">Danh sách ga dừng</h5>
+    </c-card-header>
+    <c-card-body>
+      <table cTable hover bordered>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên ga</th>
+            <th>Giờ khởi hành</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let station of journeyStations; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ station.TrainStationName }}</td>
+            <td>{{ station.DepartureTime }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </c-card-body>
+  </c-card>
+  <h4 class="mt-4">Danh sách toa</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Vị trí</th>
+        <th>Loại toa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of carriages">
+        <td>{{ c.Position }}</td>
+        <td>{{ c.CarriageClassName }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Nút quay lại -->
+  <div class="mt-3">
+    <button cButton color="secondary" (click)="goBack()">⬅ Quay lại</button>
+  </div>
+</div>

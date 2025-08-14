@@ -1,0 +1,27 @@
+<!-- select-carriage.component.html -->
+<h2>Chọn toa</h2>
+<div class="carriage-list d-flex flex-wrap gap-2">
+  <button
+    cButton
+    color="primary"
+    variant="outline"
+    *ngFor="let c of carriages"
+    (click)="selectCarriage(c)"
+    [class.active]="selectedCarriage?.Id === c.Id"
+  >
+    {{ c.Position }} - {{ c.CarriageClassName }}
+  </button>
+</div>
+
+<hr />
+
+<!-- Khi chọn carriage xong thì load SelectSeatComponent -->
+<app-select-seat
+  *ngIf="selectedCarriage && selectedCarriage.CarriageClassId"
+  [journeyId]="journeyId"
+  [journeyCarriageId]="selectedCarriage.Id"
+  [carriageClassId]="selectedCarriage.CarriageClassId"
+  [startingStationId]="startStationId"
+  [endingStationId]="endStationId"
+>
+</app-select-seat>
