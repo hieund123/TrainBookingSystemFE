@@ -11,6 +11,21 @@ export const navItems: INavData[] = [
     }
   },
   {
+    name: 'Tìm và đặt vé',
+    url: '/schedule-lookup',
+    iconComponent: { name: 'cil-map' },
+  },
+  {
+    name: 'Quản lý ga tàu',
+    url: '/train-station',
+    iconComponent: { name: 'cil-map' },
+  },
+  {
+    name: 'Lịch sử đặt vé',
+    url: '/booking-history',
+    iconComponent: { name: 'cil-map' },
+  },
+  {
     title: true,
     name: 'Theme'
   },

@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>Quản lý ga tàu</h2>
+  <button cButton color="primary" (click)="addingStation = true">
+    Thêm ga
+  </button>
+</div>
+<table cTable>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên ga</th>
+      <th scope="col">Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let station of stations; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ station.StationName }}</td>
+      <td>
+        <!-- Nút Edit mở modal -->
+        <button cButton color="warning" (click)="editingStation = station">
+          Edit
+        </button>
+        <button cButton color="danger" (click)="deletingStation = station">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal Add -->
+<app-add-station
+  *ngIf="addingStation"
+  (save)="addStation($event)"
+  (cancel)="addingStation = false"
+></app-add-station>
+
+<!-- Modal Edit -->
+<app-edit-station
+  *ngIf="editingStation"
+  [stationName]="editingStation.StationName"
+  (save)="updateStation($event, editingStation.Id)"
+  (cancel)="editingStation = null"
+></app-edit-station>
+
+<!-- Modal Delete -->
+<app-confirm-delete-station
+  *ngIf="deletingStation"
+  [stationName]="deletingStation.StationName"
+  (confirmed)="deleteStation(deletingStation.Id)"
+  (cancelled)="deletingStation = null"
+></app-confirm-delete-station>

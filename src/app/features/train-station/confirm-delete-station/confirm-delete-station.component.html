@@ -1,0 +1,15 @@
+<c-modal #deleteModal alignment="center" id="deleteModal" visible="true">
+  <c-modal-header>
+    <h5 cModalTitle>Xác nhận xóa</h5>
+    <button cButtonClose (click)="cancelled.emit()" [cModalToggle]="deleteModal.id"></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    Bạn có chắc chắn muốn xóa ga <strong>{{ stationName }}</strong> không?
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="cancelled.emit()" [cModalToggle]="deleteModal.id">Hủy</button>
+    <button cButton color="danger" (click)="confirmed.emit()" [cModalToggle]="deleteModal.id">Xác nhận</button>
+  </c-modal-footer>
+</c-modal>

@@ -44,5 +44,14 @@ export class SelectCarriageComponent implements OnInit {
 
   selectCarriage(carriage: any) {
     this.selectedCarriage = carriage;
+    // 👇 Lưu scheduleId ngay tại đây
+    sessionStorage.setItem('scheduleId', String(this.journeyId));
+
+    const bookingInfoStr = sessionStorage.getItem('pendingBooking');
+    const bookingInfo = bookingInfoStr ? JSON.parse(bookingInfoStr) : {};
+
+    bookingInfo.scheduleId = this.journeyId;
+    sessionStorage.setItem('pendingBooking', JSON.stringify(bookingInfo));
+    console.log(bookingInfo);
   }
 }

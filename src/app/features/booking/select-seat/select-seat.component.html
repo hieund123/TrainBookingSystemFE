@@ -6,6 +6,10 @@
       <p>
         Bạn đã chọn ghế: <strong>{{ selectedSeat }}</strong>
       </p>
+      <p *ngIf="price !== null">
+        Giá vé:
+        <strong>{{ price | currency : "VND" : "symbol" : "1.0-0" }}</strong>
+      </p>
     </div>
 
     <!-- Modal confirm -->
@@ -32,4 +36,3 @@
 <div *ngIf="allSeats.length === 0">
   <p>Không có dữ liệu ghế.</p>
 </div>
-

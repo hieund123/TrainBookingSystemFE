@@ -8,13 +8,32 @@
     <button [cModalToggle]="modal.id" cButtonClose></button>
   </c-modal-header>
 
-  <c-modal-body>
-    Bạn có chắc chắn muốn đặt ghế <strong>{{ seatNo }}</strong> không?
+  <c-modal-body *ngIf="bookingInfo">
+    <p>
+      Bạn có chắc chắn muốn đặt ghế
+      <strong>{{ bookingInfo.seatNo }}</strong
+      >?
+    </p>
+    <ul>
+      <li>Hành trình: {{ journeyName }}</li>
+      <li>Lịch trình: {{ scheduleName }}</li>
+      <li>Ga đi: {{ startStationName }}</li>
+      <li>Ga đến: {{ endStationName }}</li>
+      <li>Loại toa: {{ carriageClassName }}</li>
+      <li>
+        Giá: {{ bookingInfo.price | currency : "VND" : "symbol" : "1.0-0" }}
+      </li>
+    </ul>
   </c-modal-body>
 
   <c-modal-footer>
     <button [cModalToggle]="modal.id" cButton color="secondary">Hủy</button>
-    <button cButton color="primary" [cModalToggle]="modal.id" (click)="confirmed.emit()">
+    <button
+      cButton
+      color="primary"
+      [cModalToggle]="modal.id"
+      (click)="confirmBooking()"
+    >
       Xác nhận
     </button>
   </c-modal-footer>

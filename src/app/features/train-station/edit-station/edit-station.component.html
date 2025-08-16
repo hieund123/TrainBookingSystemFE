@@ -1,0 +1,21 @@
+<!-- edit-station.component.html -->
+<c-modal #editStationModal alignment="center" id="editStationModal" visible="true">
+  <c-modal-header>
+    <h5 cModalTitle>Chỉnh sửa ga</h5>
+    <button [cModalToggle]="editStationModal.id" cButtonClose (click)="onCancel()"></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    <label>Tên ga</label>
+    <input type="text" [(ngModel)]="stationName" class="form-control" />
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button [cModalToggle]="editStationModal.id" cButton color="secondary" (click)="onCancel()">
+      Hủy
+    </button>
+    <button [cModalToggle]="editStationModal.id" cButton color="primary" (click)="onSave()">
+      Lưu
+    </button>
+  </c-modal-footer>
+</c-modal>

@@ -1,0 +1,96 @@
+<div class="container mt-4">
+  <h4>Lịch sử đặt vé</h4>
+
+  <!-- Bảng vé thành công -->
+  <h5 class="mt-4 text-success">Vé thành công</h5>
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Mã vé</th>
+        <th>Ghế</th>
+        <th>Ngày đặt</th>
+        <th>Số tiền</th>
+        <th>Tàu</th>
+        <th>Từ</th>
+        <th>Đến</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of confirmedBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ booking.TicketNo }}</td>
+        <td>{{ booking.SeatNo }}</td>
+        <td>{{ booking.BookingDate | date : "dd/MM/yyyy HH:mm" }}</td>
+        <td>{{ booking.AmountPaid | number }} đ</td>
+        <td>{{ booking.TrainName }}</td>
+        <td>{{ booking.StartingStationName }}</td>
+        <td>{{ booking.EndingStationName }}</td>
+        <td>
+          <c-badge color="success">{{ booking.Status }}</c-badge>
+        </td>
+        <td>
+          <button cButton color="primary" (click)="detail.openModal(booking.Id)">Chi tiết</button>
+          <app-detail-booking #detail></app-detail-booking>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Bảng vé đã hủy -->
+  <h5 class="mt-4 text-danger">Vé đã hủy</h5>
+  <table cTable hover bordered>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Mã vé</th>
+        <th>Ghế</th>
+        <th>Ngày đặt</th>
+        <th>Số tiền</th>
+        <th>Tàu</th>
+        <th>Từ</th>
+        <th>Đến</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of cancelledBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ booking.TicketNo }}</td>
+        <td>{{ booking.SeatNo }}</td>
+        <td>{{ booking.BookingDate | date : "dd/MM/yyyy HH:mm" }}</td>
+        <td>{{ booking.AmountPaid | number }} đ</td>
+        <td>{{ booking.TrainName }}</td>
+        <td>{{ booking.StartingStationName }}</td>
+        <td>{{ booking.EndingStationName }}</td>
+        <td>
+          <c-badge color="danger">{{ booking.Status }}</c-badge>
+        </td>
+        <td>
+          <button cButton color="primary" (click)="detail.openModal(booking.Id)">Chi tiết</button>
+          <app-detail-booking #detail></app-detail-booking>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<c-modal [(visible)]="visibleDetail" size="lg">
+  <c-modal-header>
+    <h5 class="modal-title">Chi tiết vé</h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="visibleDetail = false"
+    ></button>
+  </c-modal-header>
+  <c-modal-body>
+    <app-detail-booking
+      *ngIf="selectedBookingId"
+      [bookingId]="selectedBookingId"
+    ></app-detail-booking>
+
+    >
+  </c-modal-body>
+</c-modal>

@@ -23,17 +23,31 @@ export const routes: Routes = [
       { path: 'charts', loadChildren: () => import('./views/charts/routes').then(m => m.routes) },
       { path: 'pages', loadChildren: () => import('./views/pages/routes').then(m => m.routes) },
       {
-      path: 'schedule-lookup',
-      loadChildren: () =>
-        import('./features/schedule-lookup/schedule-lookup.module')
-          .then((m) => m.ScheduleLookupModule),
+        path: 'schedule-lookup',
+        loadChildren: () =>
+          import('./features/schedule-lookup/schedule-lookup.module')
+            .then((m) => m.ScheduleLookupModule),
       },
       {
-      path: 'booking',
-      loadChildren: () =>
-        import('./features/booking/booking.module')
-          .then((m) => m.BookingModule),
+        path: 'booking',
+        loadChildren: () =>
+          import('./features/booking/booking.module')
+            .then((m) => m.BookingModule),
       },
+      {
+        path: 'train-station',
+        loadChildren: () =>
+          import('./features/train-station/train-station.module').then(
+            (m) => m.TrainStationModule
+          ),
+      },
+      {
+        path: 'booking-history',
+        loadChildren: () => 
+          import('./features/booking-history/booking-history.module').then(
+          (m) => m.BookingHistoryModule
+          )
+      }
     ],
   },
   {

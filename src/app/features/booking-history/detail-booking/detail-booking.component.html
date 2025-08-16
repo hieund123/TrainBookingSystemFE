@@ -1,0 +1,59 @@
+<c-modal [(visible)]="visible" size="lg">
+  <c-modal-header>
+    <h5 class="modal-title">Chi tiết đặt vé</h5>
+    <button type="button" class="btn-close" (click)="closeModal()"></button>
+  </c-modal-header>
+
+  <c-modal-body *ngIf="bookingDetail">
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Mã vé:</div>
+      <div class="col-8">{{ bookingDetail.TicketNo }}</div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Tàu:</div>
+      <div class="col-8">{{ bookingDetail.TrainJourneyName }}</div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Ghế:</div>
+      <div class="col-8">
+        {{ bookingDetail.SeatNo }} ({{ bookingDetail.CarriageClassName }})
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Thời gian khởi hành:</div>
+      <div class="col-8">
+        {{ bookingDetail.DepartureDateTime | date : "dd/MM/yyyy HH:mm" }}
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Ga đi:</div>
+      <div class="col-8">
+        {{ bookingDetail.StartingStationName }} - {{ stationDepartureTime }}
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Ga đến:</div>
+      <div class="col-8">{{ bookingDetail.EndingStationName }}</div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Số tiền:</div>
+      <div class="col-8">{{ bookingDetail.AmountPaid | number }} đ</div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-4 fw-bold">Trạng thái:</div>
+      <div class="col-8">{{ bookingDetail.Status }}</div>
+    </div>
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button
+      *ngIf="bookingDetail?.Status !== 'Cancelled'"
+      class="btn btn-danger me-2"
+      (click)="cancelBooking()"
+      [disabled]="bookingDetail?.Status === 'Cancelled'"
+    >
+      Huỷ vé
+    </button>
+    <button class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+  </c-modal-footer>
+</c-modal>

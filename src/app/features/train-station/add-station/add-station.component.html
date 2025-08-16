@@ -1,0 +1,25 @@
+<!-- add-station.component.html -->
+<c-modal #addModal alignment="center" id="addModal" visible="true">
+  <c-modal-header>
+    <h5 cModalTitle>Thêm ga mới</h5>
+    <button cButtonClose (click)="cancel.emit()" [cModalToggle]="addModal.id"></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="stationName"
+      placeholder="Nhập tên ga"
+    />
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="cancel.emit()" [cModalToggle]="addModal.id">
+      Hủy
+    </button>
+    <button cButton color="success" (click)="onSave()" [cModalToggle]="addModal.id">
+      Lưu
+    </button>
+  </c-modal-footer>
+</c-modal>

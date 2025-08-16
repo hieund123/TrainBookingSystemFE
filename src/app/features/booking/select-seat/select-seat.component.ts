@@ -11,7 +11,7 @@ import { ConfirmBookingComponent } from '../confirm-booking/confirm-booking.comp
   templateUrl: './select-seat.component.html',
   styleUrls: ['./select-seat.component.scss'],
 })
-export class SelectSeatComponent implements OnChanges {
+export class SelectSeatComponent implements OnChanges  {
   @Input() journeyId!: number;
   @Input() carriageClassId!: number;
   @Input() journeyCarriageId!: number;
@@ -24,6 +24,7 @@ export class SelectSeatComponent implements OnChanges {
   allSeats: string[] = [];
   availableSeats: string[] = [];
   showConfirmModal = false;
+  price: number | null = null;
 
   constructor(private bookingService: BookingService, private router: Router) {}
 
@@ -74,6 +75,10 @@ export class SelectSeatComponent implements OnChanges {
     const bookingInfoStr = sessionStorage.getItem('pendingBooking');
     const bookingInfo = bookingInfoStr ? JSON.parse(bookingInfoStr) : {};
 
+      // Lấy scheduleId từ sessionStorage
+  const scheduleIdStr = sessionStorage.getItem('scheduleId');
+  const scheduleId = scheduleIdStr ? parseInt(scheduleIdStr, 10) : 0;
+
     // Cập nhật thông tin ghế và carriage
     bookingInfo.journeyId = this.journeyId;
     bookingInfo.carriageClassId = this.carriageClassId;
@@ -81,6 +86,29 @@ export class SelectSeatComponent implements OnChanges {
     bookingInfo.startStationId = this.startingStationId;
     bookingInfo.endStationId = this.endingStationId;
     bookingInfo.seatNo = this.selectedSeat;
+    bookingInfo.scheduleId = scheduleId;
+
+    // Lấy giá vé từ API
+    if (scheduleId > 0 && this.carriageClassId > 0) {
+      this.bookingService
+        .getCarriagePrice(scheduleId, this.carriageClassId)
+        .subscribe({
+          next: (res) => {
+            this.price = res.Price;
+            bookingInfo.price = this.price;
+            sessionStorage.setItem(
+              'pendingBooking',
+              JSON.stringify(bookingInfo)
+            );
+            console.log('Giá vé:', this.price);
+          },
+          error: (err) => {
+            console.error('Lỗi lấy giá vé:', err);
+          },
+        });
+    } else {
+      sessionStorage.setItem('pendingBooking', JSON.stringify(bookingInfo));
+    }
 
     // Lưu lại sessionStorage
     sessionStorage.setItem('pendingBooking', JSON.stringify(bookingInfo));
