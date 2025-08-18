@@ -47,7 +47,15 @@ export const routes: Routes = [
           import('./features/booking-history/booking-history.module').then(
           (m) => m.BookingHistoryModule
           )
-      }
+      },
+      {
+        path: 'journey',
+        loadChildren: () => 
+          import('./features/journey/journey.module').then(
+          (m) => m.JourneyModule
+          )
+      },
+
     ],
   },
   {

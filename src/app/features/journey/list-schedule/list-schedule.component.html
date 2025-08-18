@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Danh sách lịch trình</strong>
+  </div>
+  <div class="card-body p-0">
+    <table cTable striped hover>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tên lịch trình</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of schedules; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ s.Name }}</td>
+          <td>
+            <button cButton color="info" size="sm" (click)="viewJourneys(s)">
+              Xem danh sách tàu
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="loading" class="p-3 text-center">
+      <c-spinner color="primary"></c-spinner>
+      <span class="ms-2">Đang tải...</span>
+    </div>
+  </div>
+</div>

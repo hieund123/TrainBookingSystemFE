@@ -26,6 +26,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-map' },
   },
   {
+    name: 'Quản lý chuyến tàu',
+    url: '/journey',
+    iconComponent: { name: 'cil-map' },
+  },
+  {
     title: true,
     name: 'Theme'
   },

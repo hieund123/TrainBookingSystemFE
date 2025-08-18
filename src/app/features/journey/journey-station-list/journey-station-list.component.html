@@ -1,0 +1,94 @@
+<c-card class="mt-4" >
+  <c-card-header class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">Danh sách ga dừng</h5>
+    <button cButton color="primary" (click)="openAddStationModal()">
+      + Thêm ga
+    </button>
+  </c-card-header>
+  <c-card-body>
+    <table cTable hover bordered>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên ga</th>
+          <th>Giờ khởi hành</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of stations; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ s.TrainStationName }}</td>
+          <td>{{ s.DepartureTime }}</td>
+          <td>
+            <button
+              cButton
+              color="danger"
+              size="sm"
+              (click)="removeStation(s.TrainStationId)"
+            >
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+</c-card>
+
+<!-- Modal thêm ga -->
+<c-modal [(visible)]="visibleAddStation" size="lg">
+  <c-modal-header>
+    <h5 class="modal-title">Thêm ga mới</h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="closeAddStationModal()"
+    ></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    <form>
+      <div class="mb-3">
+        <label class="form-label">Ga</label>
+        <select
+          class="form-select"
+          [(ngModel)]="newStation.TrainStationId"
+          name="TrainStationId"
+        >
+          <option *ngFor="let s of allStations" [value]="s.Id">
+            {{ s.StationName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Thứ tự dừng (StopOrder)</label>
+        <input
+          type="number"
+          min="1"
+          class="form-control"
+          [(ngModel)]="newStation.StopOrder"
+          name="StopOrder"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Giờ khởi hành</label>
+        <input
+          type="time"
+          class="form-control"
+          [(ngModel)]="newStation.DepartureTime"
+          name="DepartureTime"
+          step="1"
+        />
+      </div>
+    </form>
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="closeAddStationModal()">
+      Đóng
+    </button>
+    <button cButton color="primary" (click)="saveNewStation()">Lưu</button>
+  </c-modal-footer>
+</c-modal>

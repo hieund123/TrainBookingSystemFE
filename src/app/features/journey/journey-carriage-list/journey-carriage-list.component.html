@@ -1,0 +1,81 @@
+<c-card class="mt-4" >
+  <c-card-header class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">Danh sách toa</h5>
+    <button cButton color="primary" (click)="openAddCarriageModal()">
+      + Thêm toa
+    </button>
+  </c-card-header>
+  <c-card-body>
+    <table cTable hover bordered>
+      <thead>
+        <tr>
+          <th>Vị trí</th>
+          <th>Loại toa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of carriages">
+          <td>{{ c.Position }}</td>
+          <td>{{ c.CarriageClassName }}</td>
+          <td>
+            <button
+              cButton
+              color="danger"
+              size="sm"
+              (click)="deleteCarriage(c.Id)"
+            >
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+</c-card>
+
+<!-- Modal thêm toa -->
+<c-modal [(visible)]="visibleAddCarriage" size="lg">
+  <c-modal-header>
+    <h5 class="modal-title">Thêm toa mới</h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="closeAddCarriageModal()"
+    ></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    <form>
+      <div class="mb-3">
+        <label class="form-label">Loại toa</label>
+        <select
+          class="form-select"
+          [(ngModel)]="newCarriage.CarriageClassId"
+          name="CarriageClassId"
+        >
+          <option *ngFor="let cc of carriageClasses" [value]="cc.Id">
+            {{ cc.CarriageName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Vị trí</label>
+        <input
+          type="number"
+          min="1"
+          class="form-control"
+          [(ngModel)]="newCarriage.Position"
+          name="Position"
+        />
+      </div>
+    </form>
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="closeAddCarriageModal()">
+      Đóng
+    </button>
+    <button cButton color="primary" (click)="saveNewCarriage()">Lưu</button>
+  </c-modal-footer>
+</c-modal>
