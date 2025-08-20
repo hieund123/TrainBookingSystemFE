@@ -6,7 +6,7 @@ import { BookingHistoryService } from '../services/booking-history.service';
 @Component({
   selector: 'app-detail-booking',
   standalone: true,
-  imports: [CommonModule, ModalModule, ButtonDirective],
+  imports: [CommonModule, ModalModule],
   templateUrl: './detail-booking.component.html',
   styleUrls: ['./detail-booking.component.scss'],
 })

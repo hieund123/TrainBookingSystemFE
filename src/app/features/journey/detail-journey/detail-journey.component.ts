@@ -22,7 +22,6 @@ import { JourneyCarriageListComponent } from '../journey-carriage-list/journey-c
     TableModule,
     CardModule,
     ButtonModule,
-    ModalComponent,
     FormsModule,
     FormModule,
     ModalModule,

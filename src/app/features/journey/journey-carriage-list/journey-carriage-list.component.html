@@ -1,4 +1,4 @@
-<c-card class="mt-4" >
+<c-card class="mt-4">
   <c-card-header class="d-flex justify-content-between align-items-center">
     <h5 class="mb-0">Danh sách toa</h5>
     <button cButton color="primary" (click)="openAddCarriageModal()">
@@ -17,7 +17,16 @@
         <tr *ngFor="let c of carriages">
           <td>{{ c.Position }}</td>
           <td>{{ c.CarriageClassName }}</td>
-          <td>
+          <td>{{ c.Price ? (c.Price | currency : "VND") : "Chưa có giá" }}</td>
+          <td class="d-flex gap-2">
+            <button
+              cButton
+              color="info"
+              size="sm"
+              (click)="openEditPriceModal(c)"
+            >
+              Sửa giá
+            </button>
             <button
               cButton
               color="danger"
@@ -77,5 +86,42 @@
       Đóng
     </button>
     <button cButton color="primary" (click)="saveNewCarriage()">Lưu</button>
+  </c-modal-footer>
+</c-modal>
+
+<!-- Modal sửa giá toa -->
+<c-modal [(visible)]="visibleEditPrice" size="lg">
+  <c-modal-header>
+    <h5 class="modal-title">Sửa giá toa</h5>
+    <button type="button" class="btn-close" (click)="closeEditPriceModal()"></button>
+  </c-modal-header>
+
+  <c-modal-body *ngIf="editingCarriage">
+    <form>
+      <div class="mb-3">
+        <label class="form-label">Toa</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="editingCarriage.CarriageClassName"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Giá vé</label>
+        <input
+          type="number"
+          min="0"
+          class="form-control"
+          [(ngModel)]="editingCarriage.Price"
+          name="Price"
+        />
+      </div>
+    </form>
+  </c-modal-body>
+
+  <c-modal-footer>
+    <button cButton color="secondary" (click)="closeEditPriceModal()">Đóng</button>
+    <button cButton color="primary" (click)="saveEditPrice()">Lưu</button>
   </c-modal-footer>
 </c-modal>

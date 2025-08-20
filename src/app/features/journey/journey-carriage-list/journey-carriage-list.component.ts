@@ -28,12 +28,16 @@ import { CarriageClass, JourneyService } from '../services/journey.service';
   styleUrl: './journey-carriage-list.component.scss',
 })
 export class JourneyCarriageListComponent implements OnInit {
-  @Input() carriages: any[] = [];
+  carriages: any[] = [];
   @Input() journeyId!: number;
+  @Input() scheduleId!: number;
   @Output() carriagesChanged = new EventEmitter<void>();
 
   visibleAddCarriage = false;
   carriageClasses: CarriageClass[] = [];
+
+  visibleEditPrice = false;
+  editingCarriage: any = null;
 
   newCarriage: any = {
     CarriageClassId: null,
@@ -44,12 +48,35 @@ export class JourneyCarriageListComponent implements OnInit {
 
   ngOnInit() {
     this.loadCarriageClasses();
+    this.loadCarriages();
   }
 
   loadCarriageClasses() {
     this.journeyService.getAllCarriageClasses().subscribe({
       next: (res) => (this.carriageClasses = res),
       error: (err) => console.error('Error load CarriageClasses', err),
+    });
+  }
+
+  loadCarriages() {
+    this.journeyService.getCarriagesInJourney(this.journeyId).subscribe({
+      next: (res) => {
+        this.carriages = res;
+
+        this.carriages.forEach((c) => {
+          this.journeyService
+            .getCarriagePrice(this.scheduleId, c.CarriageClassId)
+            .subscribe({
+              next: (price) => {
+                c.Price = price.Price;
+              },
+              error: () => {
+                c.Price = null;
+              },
+            });
+        });
+      },
+      error: (err) => console.error('Error load carriages', err),
     });
   }
 
@@ -80,6 +107,7 @@ export class JourneyCarriageListComponent implements OnInit {
     this.journeyService.insertJourneyCarriage(payload).subscribe({
       next: () => {
         this.closeAddCarriageModal();
+        this.loadCarriages();
         this.carriagesChanged.emit();
       },
       error: (err) => console.error('Error thêm toa', err),
@@ -93,18 +121,43 @@ export class JourneyCarriageListComponent implements OnInit {
 
     this.journeyService.deleteJourneyCarriage(carriageId).subscribe({
       next: () => {
+        this.loadCarriages();
         this.carriagesChanged.emit();
       },
       error: (err) => console.error('Error xóa toa', err),
     });
   }
 
-  reloadCarriages() {
-    this.journeyService.getCarriagesInJourney(this.journeyId).subscribe({
-      next: (res) => {
-        this.carriages = res;
-      },
-      error: (err) => console.error('Error load carriages', err),
-    });
+  openEditPriceModal(carriage: any) {
+    this.editingCarriage = { ...carriage };
+    this.visibleEditPrice = true;
+  }
+
+  closeEditPriceModal() {
+    this.visibleEditPrice = false;
+    this.editingCarriage = null;
+  }
+
+  saveEditPrice() {
+    if (!this.editingCarriage || this.editingCarriage.Price == null) {
+      alert('Vui lòng nhập giá hợp lệ.');
+      return;
+    }
+
+    const payload = { Price: Number(this.editingCarriage.Price) };
+
+    this.journeyService
+      .updateCarriagePrice(
+        this.scheduleId,
+        this.editingCarriage.CarriageClassId,
+        payload
+      )
+      .subscribe({
+        next: () => {
+          this.closeEditPriceModal();
+          this.loadCarriages();
+        },
+        error: (err) => console.error('Error update price', err),
+      });
   }
 }

@@ -34,6 +34,24 @@ export interface JourneyCreatePayload {
   DepartureDateTime: string;
 }
 
+export interface CarriagePrice {
+  ScheduleId: number;
+  ScheduleName: string;
+  CarriageClassId: number;
+  CarriageClassName: string;
+  Price: number;
+}
+
+export interface CarriagePriceCreatePayload {
+  ScheduleId: number;
+  CarriageClassId: number;
+  Price: number;
+}
+
+export interface CarriagePriceUpdatePayload {
+  Price: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -111,5 +129,37 @@ export class JourneyService {
 
   deleteJourney(journeyId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/TrainJourney/${journeyId}`);
+  }
+
+  // Lấy tất cả CarriagePrice
+  getCarriagePrices(): Observable<CarriagePrice[]> {
+    return this.http.get<CarriagePrice[]>(`${this.baseUrl}/CarriagePrice`);
+  }
+
+  // Tạo mới CarriagePrice
+  createCarriagePrice(payload: CarriagePriceCreatePayload): Observable<any> {
+    return this.http.post(`${this.baseUrl}/CarriagePrice`, payload);
+  }
+
+  // Lấy chi tiết CarriagePrice theo ScheduleId + CarriageClassId
+  getCarriagePrice(
+    scheduleId: number,
+    carriageClassId: number
+  ): Observable<CarriagePrice> {
+    return this.http.get<CarriagePrice>(
+      `${this.baseUrl}/CarriagePrice/${scheduleId}/${carriageClassId}`
+    );
+  }
+
+  // Cập nhật CarriagePrice
+  updateCarriagePrice(
+    scheduleId: number,
+    carriageClassId: number,
+    payload: CarriagePriceUpdatePayload
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}/CarriagePrice/${scheduleId}/${carriageClassId}`,
+      payload
+    );
   }
 }

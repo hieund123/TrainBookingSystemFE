@@ -7,7 +7,6 @@ import {
 import {
   BadgeModule,
   TableDirective,
-  TableColorDirective,
   TabsModule,
   ModalModule,
   ButtonDirective,
@@ -20,7 +19,6 @@ import { DetailBookingComponent } from '../detail-booking/detail-booking.compone
   imports: [
     CommonModule,
     TableDirective,
-    TableColorDirective,
     BadgeModule,
     TabsModule,
     ModalModule,

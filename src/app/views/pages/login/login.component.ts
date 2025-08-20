@@ -128,16 +128,23 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', token);
           this.message = 'Đăng nhập thành công!';
 
-          // Kiểm tra booking chưa hoàn thành
-          const pendingBooking = localStorage.getItem('pendingBooking');
-          if (pendingBooking) {
-            const booking = JSON.parse(pendingBooking);
+          // ✅ Lấy role từ token
+          const role = this.authService.getRole();
+          console.log('User role:', role);
 
-            // Chuyển về trang booking tương ứng với scheduleId (TrainJourneyId)
-            const scheduleId = booking.TrainJourneyId;
-            this.router.navigate([`/booking/${scheduleId}`]);
+          // Nếu muốn redirect theo role:
+          if (role === 'ADMIN') {
+            this.router.navigate(['/admin']);
           } else {
-            this.router.navigate(['/dashboard']);
+            // Kiểm tra booking chưa hoàn thành
+            const pendingBooking = localStorage.getItem('pendingBooking');
+            if (pendingBooking) {
+              const booking = JSON.parse(pendingBooking);
+              const scheduleId = booking.TrainJourneyId;
+              this.router.navigate([`/booking/${scheduleId}`]);
+            } else {
+              this.router.navigate(['/dashboard']);
+            }
           }
         }
       },
@@ -151,5 +158,13 @@ export class LoginComponent implements OnInit {
             : err.error?.message || 'Có lỗi xảy ra. Vui lòng thử lại.';
       },
     });
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  goToScheduleLookup() {
+    this.router.navigate(['/schedule-lookup']);
   }
 }

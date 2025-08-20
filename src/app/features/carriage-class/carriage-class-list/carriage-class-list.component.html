@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2>Danh sách loại toa</h2>
+
+  <div *ngIf="isLoading" class="alert alert-info">Đang tải dữ liệu...</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <div class="mb-3">
+    <app-carriage-class-add (created)="loadData()"></app-carriage-class-add>
+  </div>
+
+  <table cTable hover striped bordered *ngIf="carriageClasses.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Tên loại toa</th>
+        <th>Sức chứa</th>
+        <th class="text-center">Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let carriage of carriageClasses; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ carriage.CarriageName }}</td>
+        <td>{{ carriage.SeatingCapacity }}</td>
+        <td class="text-center">
+          <app-carriage-class-edit
+            [carriage]="carriage"
+            (updated)="loadData()"
+          ></app-carriage-class-edit>
+          <button
+            cButton
+            color="danger"
+            size="sm"
+            (click)="deleteCarriage(carriage.Id)"
+          >
+            Xóa
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="!isLoading && carriageClasses.length === 0"
+    class="alert alert-warning"
+  >
+    Không có dữ liệu loại toa.
+  </div>
+</div>

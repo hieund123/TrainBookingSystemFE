@@ -12,11 +12,12 @@ import {
   SidebarHeaderComponent,
   SidebarNavComponent,
   SidebarToggleDirective,
-  SidebarTogglerDirective
+  SidebarTogglerDirective,
 } from '@coreui/angular';
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
-import { navItems } from './_nav';
+import { INavDataWithRoles, navItems } from './_nav';
+import { AuthService } from '../../services/auth.service';
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -45,11 +46,20 @@ function isOverflown(element: HTMLElement) {
     ShadowOnScrollDirective,
     ContainerComponent,
     RouterOutlet,
-    DefaultFooterComponent
-  ]
+    DefaultFooterComponent,
+  ],
 })
 export class DefaultLayoutComponent {
   public navItems = navItems;
+
+  navItemsFiltered: INavDataWithRoles[] = [];
+
+  constructor(private authService: AuthService) {
+    const role = this.authService.getRole() ?? ''; 
+    this.navItemsFiltered = navItems.filter(
+      (item) => !item.roles || item.roles.includes(role)
+    );
+  }
 
   onScrollbarUpdate($event: any) {
     // if ($event.verticalUsed) {
